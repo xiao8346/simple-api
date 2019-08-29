@@ -7,13 +7,16 @@
   "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run rimraf && npm run tsc && node ./dist/server",
+    "start": "npm run build && node ./dist/server",
+    "build": "npm run rimraf && npm run tsc",
     "tsc": "tsc -p tsconfig.json",
-    "rimraf": "rimraf ./dist"
+    "rimraf": "rimraf ./dist",
+    "build:docker": "docker build -t %npm_package_name%:%npm_package_version%. --no-cache"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "lodash": "^4.17.15",
     "mongoose": "^5.5.8",
     "nconf": "^0.10.0",
     "node-fetch": "^2.5.0",
@@ -24,6 +27,7 @@
     "@types/body-parser": "^1.17.0",
     "@types/cors": "^2.8.5",
     "@types/express": "^4.16.1",
+    "@types/lodash": "^4.14.138",
     "@types/mongoose": "^5.5.1",
     "@types/nconf": "^0.10.0",
     "@types/node": "^12.0.1",

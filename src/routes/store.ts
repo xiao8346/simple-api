@@ -21,9 +21,9 @@ export function storeRoutesFactory(app: Express) {
   }
 
   function createStores(req: Request, res: Response, next: NextFunction) {
-    const { name, address, phone, principal } = req.body
+    const { name, address, phone, principal } = req.body;
 
-    if (!(name || address || phone || principal)) { throw new HttpError(404); }
+    if (!(name && address && phone && principal)) { throw new HttpError(404); }
 
     return new Store({ name, address, phone, principal }).save()
       .then(store => {
@@ -41,6 +41,7 @@ export function storeRoutesFactory(app: Express) {
 
         res.json({ data: store });
       })
+      .fail(next);
   }
 
   function updateStore(req: Request, res: Response, next: NextFunction) {

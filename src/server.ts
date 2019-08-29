@@ -1,10 +1,10 @@
+import { STATUS_CODES } from 'http';
+
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 const Q = require('q');
-
-import { STATUS_CODES } from 'http';
 
 import { modelsFactory } from './models';
 import { routesFactorey } from './routes';
