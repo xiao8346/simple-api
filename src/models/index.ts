@@ -1,12 +1,20 @@
-import { storeModel } from './store';
+import { StoreFactory, IStoreModel } from './store';
 
-let models;
+import { Connection } from 'mongoose';
 
-export function modelsFactory(conn) {
+export interface IModel {
+  Store: IStoreModel;
+}
+
+let models: IModel;
+
+export function modelsFactory(conn: Connection) {
   if (models) { return models; }
 
+  const Store = new StoreFactory();
+
   models = {
-    Store: storeModel(conn),
+    Store: conn.model('Store', Store.getSchema()),
   }
 
   return models;

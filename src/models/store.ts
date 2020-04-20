@@ -1,16 +1,19 @@
-import { Schema, Connection, Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
+
 import * as _ from 'lodash';
 
 import { BaseFactory } from './base';
 
-export interface IStore extends Document {
+export interface IStoreDocument extends Document {
   name: string;
   address: string;
   phone: string;
   principal: string;
 }
 
-export class StoreFactory extends BaseFactory<IStore> {
+export interface IStoreModel extends Model<IStoreDocument> { }
+
+export class StoreFactory extends BaseFactory<IStoreDocument, IStoreModel> {
   constructor() { super(); }
 
   modelName() { return 'Store' };
@@ -47,32 +50,4 @@ export class StoreFactory extends BaseFactory<IStore> {
       toObject: { getters: true }
     };
   }
-}
-
-export function storeModel(conn: Connection) {
-  const storeSchema = new Schema(
-    {
-      name: {
-        type: String,
-        required: `{PATH} is required`
-      },
-      address: {
-        type: String,
-      },
-      phone: {
-        type: String,
-      },
-      principal: {
-        type: String
-      }
-    },
-    {
-      toJSON: { getters: true, virtuals: false },
-      toObject: { getters: true }
-    }
-  )
-
-  const Store = conn.model('Store', storeSchema);
-
-  return Store;
 }

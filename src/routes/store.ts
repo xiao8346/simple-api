@@ -1,10 +1,12 @@
 import { Router, Request, Response, NextFunction, Express } from 'express';
 
 import { HttpError } from '../utils';
+import { IModel } from '../models';
+
 
 export function storeRoutesFactory(app: Express) {
   const router = Router();
-  const { Store } = app.get('model');
+  const { Store } = app.get('model') as IModel;
 
   router.get('/stores', readStores);
   router.post('/stores', createStores);
@@ -46,7 +48,7 @@ export function storeRoutesFactory(app: Express) {
 
   function updateStore(req: Request, res: Response, next: NextFunction) {
     const { sid } = req.params;
-    const { name, address, phone, principal } = req.body
+    const { name, address, phone, principal } = req.body;
 
     Store.findById(sid).exec()
       .then(store => {
@@ -59,7 +61,7 @@ export function storeRoutesFactory(app: Express) {
 
         return store.save();
       })
-      .then(data => { data })
+      .then(data => res.json({ data }))
       .fail(next);
   }
 
