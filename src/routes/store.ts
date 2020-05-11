@@ -3,7 +3,6 @@ import { Router, Request, Response, NextFunction, Express } from 'express';
 import { HttpError } from '../utils';
 import { IModel } from '../models';
 
-
 export function storeRoutesFactory(app: Express) {
   const router = Router();
   const { Store } = app.get('model') as IModel;
@@ -12,10 +11,19 @@ export function storeRoutesFactory(app: Express) {
   router.post('/stores', createStores);
   router.get('/stores/:sid', readStore);
   router.patch('/stores/:sid', updateStore);
-  router.delete('/stores/:sid', removeStore);
+  router.delete('stores/:sid', removeStore);
 
   function readStores(req: Request, res: Response, next: NextFunction) {
-    Store.find().sort('-_id').exec()
+    const { limit: limitStr, skip: skipStr } = req.query;
+
+    const conditions: any = {};
+
+    conditions.limit = Math.min(parseInt(limitStr, 10) || Infinity, 50);
+    conditions.skip = Math.min(parseInt(skipStr, 10) || Infinity, 0);
+
+    Store.find(conditions)
+      .sort('-_id')
+      .exec()
       .then(stores => {
         res.json({ data: stores });
       })
@@ -25,9 +33,12 @@ export function storeRoutesFactory(app: Express) {
   function createStores(req: Request, res: Response, next: NextFunction) {
     const { name, address, phone, principal } = req.body;
 
-    if (!(name && address && phone && principal)) { throw new HttpError(404); }
+    if (!(name && address && phone && principal)) {
+      throw new HttpError(404);
+    }
 
-    return new Store({ name, address, phone, principal }).save()
+    return new Store({ name, address, phone, principal })
+      .save()
       .then(store => {
         res.json({ data: store });
       })
@@ -37,9 +48,12 @@ export function storeRoutesFactory(app: Express) {
   function readStore(req: Request, res: Response, next: NextFunction) {
     const { sid } = req.params;
 
-    Store.findById(sid).exec()
+    Store.findById(sid)
+      .exec()
       .then(store => {
-        if (!store) { throw new HttpError(404); }
+        if (!store) {
+          throw new HttpError(404);
+        }
 
         res.json({ data: store });
       })
@@ -50,14 +64,25 @@ export function storeRoutesFactory(app: Express) {
     const { sid } = req.params;
     const { name, address, phone, principal } = req.body;
 
-    Store.findById(sid).exec()
+    Store.findById(sid)
+      .exec()
       .then(store => {
-        if (!store) { throw new HttpError(404); }
+        if (!store) {
+          throw new HttpError(404);
+        }
 
-        if (name !== void 0) { store.name = name; }
-        if (address !== void 0) { store.address = address; }
-        if (phone !== void 0) { store.phone = phone; }
-        if (principal !== void 0) { store.principal = principal; }
+        if (name !== void 0) {
+          store.name = name;
+        }
+        if (address !== void 0) {
+          store.address = address;
+        }
+        if (phone !== void 0) {
+          store.phone = phone;
+        }
+        if (principal !== void 0) {
+          store.principal = principal;
+        }
 
         return store.save();
       })
@@ -68,9 +93,12 @@ export function storeRoutesFactory(app: Express) {
   function removeStore(req: Request, res: Response, next: NextFunction) {
     const { sid } = req.params;
 
-    Store.findById(sid).exec()
+    Store.findById(sid)
+      .exec()
       .then(store => {
-        if (!store) { throw new HttpError(404); }
+        if (!store) {
+          throw new HttpError(404);
+        }
 
         return store.remove();
       })

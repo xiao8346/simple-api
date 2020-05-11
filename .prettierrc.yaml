@@ -1,0 +1,16 @@
+# 單行超過最大字數換行
+printWidth: 140
+# 使用單引號
+singleQuote: true
+# 縮排不使用tab
+useTabs: false
+tabWidth: 2
+# 句尾添加分號
+semi: true
+# Print spaces between brackets in object literals
+bracketSpacing: true
+# Object or array內容最後是否要逗號 v2.0 default: 'es5'
+trailingComma: "none"
+# 箭頭函數參數總是需要括號
+arrowParens: "avoid"
+endOfLine: "auto"
