@@ -4,7 +4,7 @@ declare namespace Express {
   }
 }
 
-declare module "mongoose" {
-  import Q = require("q");
+declare module 'mongoose' {
+  import Q = require('q');
   type Promise<T> = Q.Promise<T>;
 }

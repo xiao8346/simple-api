@@ -12,7 +12,7 @@ import { config } from './config';
 
 const app = express();
 (mongoose as any).Promise = Q.Promise;
-const conn = mongoose.createConnection('mongodb://localhost:27017/test', { useNewUrlParser: true });
+const conn = mongoose.createConnection('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -31,4 +31,6 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3300;
 
-app.listen(port, () => { console.log('listen 3300 port'); })
+app.listen(port, () => {
+  console.log('listen 3300 port');
+});

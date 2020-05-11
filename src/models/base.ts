@@ -1,7 +1,7 @@
 import { Schema, SchemaDefinition, SchemaOptions, Types, Document, Model } from 'mongoose';
 
 interface IBase {
-  modelName(): String;
+  getModelName(): String;
 
   getSchema(): Schema;
 
@@ -10,9 +10,8 @@ interface IBase {
   getSchemaOptions(): SchemaOptions;
 }
 
-export abstract class BaseFactory
-  <T extends Document, U extends Model<T>> implements IBase {
-  abstract modelName(): string;
+export abstract class BaseModelFactory<U extends Model<T>, T extends Document> implements IBase {
+  abstract getModelName(): string;
 
   getSchema() {
     return new Schema<T>(this.getSchemaDefinition(), this.getSchemaOptions());
@@ -22,9 +21,10 @@ export abstract class BaseFactory
     return {
       _id: {
         type: Types.ObjectId,
-        required: `{PATH} is required`
+        required: '{PATH} is required',
+        auto: true
       }
-    }
+    };
   }
 
   abstract getSchemaOptions(): SchemaOptions;

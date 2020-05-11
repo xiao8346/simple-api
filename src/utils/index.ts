@@ -1,4 +1,4 @@
-import { STATUS_CODES } from 'http';;
+import { STATUS_CODES } from 'http';
 
 export class HttpError extends Error {
   status: number;

@@ -1,22 +1,25 @@
 import { Document, Model } from 'mongoose';
-
 import * as _ from 'lodash';
 
-import { BaseFactory } from './base';
+import { BaseModelFactory } from './base';
 
-export interface IStoreDocument extends Document {
+export interface IStore extends Document {
   name: string;
   address: string;
   phone: string;
   principal: string;
 }
 
-export interface IStoreModel extends Model<IStoreDocument> { }
+export interface StoreModel extends Model<IStore> {}
 
-export class StoreFactory extends BaseFactory<IStoreDocument, IStoreModel> {
-  constructor() { super(); }
+export class StoreModelFactory extends BaseModelFactory<StoreModel, IStore> {
+  constructor() {
+    super();
+  }
 
-  modelName() { return 'Store' };
+  getModelName() {
+    return 'Store';
+  }
 
   getSchema() {
     const schema = super.getSchema();
@@ -25,29 +28,30 @@ export class StoreFactory extends BaseFactory<IStoreDocument, IStoreModel> {
   }
 
   getSchemaDefinition() {
-    const schemaDefinition = super.getSchemaDefinition();
-
-    return _.assignIn(schemaDefinition, {
+    return _.merge(super.getSchemaDefinition(), {
       name: {
         type: String,
-        required: `{PATH} is required`
+        required: '{PATH} is required'
       },
       address: {
-        type: String,
+        type: String
       },
       phone: {
-        type: String,
+        type: String
       },
       principal: {
         type: String
       }
-    })
+    });
   }
 
   getSchemaOptions() {
     return {
+      collection: 'Stores',
       toJSON: { getters: true, virtuals: false },
-      toObject: { getters: true }
+      toObject: { getters: true },
+      id: true,
+      _id: true
     };
   }
 }

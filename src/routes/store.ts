@@ -17,11 +17,12 @@ export function storeRoutesFactory(app: Express) {
     const { limit: limitStr, skip: skipStr } = req.query;
 
     const conditions: any = {};
+    const options: any = {};
 
-    conditions.limit = Math.min(parseInt(limitStr, 10) || Infinity, 50);
-    conditions.skip = Math.min(parseInt(skipStr, 10) || Infinity, 0);
+    options.limit = Math.min(Math.min(parseInt(limitStr, 10)) || Infinity, 50);
+    options.skip = Math.max(Math.min(parseInt(skipStr, 10) || Infinity), 0);
 
-    Store.find(conditions)
+    Store.find(conditions, null, options)
       .sort('-_id')
       .exec()
       .then(stores => {
