@@ -18,9 +18,11 @@ export function storeRoutesFactory(app: Express) {
 
     const conditions: any = {};
     const options: any = {};
+    const limit = parseInt(limitStr, 10);
+    const skip = parseInt(skipStr, 10);
 
-    options.limit = Math.min(Math.min(parseInt(limitStr, 10)) || Infinity, 50);
-    options.skip = Math.max(Math.min(parseInt(skipStr, 10) || Infinity), 0);
+    options.limit = Math.min(Math.min(limit, Infinity) || 50, 50);
+    options.skip = Math.max(Math.min(skip, Infinity) || 0, 0);
 
     Store.find(conditions, null, options)
       .sort('-_id')
