@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
 import { storeRoutesFactory } from './store';
+import { userRoutesFactory } from './user';
 import { lineRoutesFactory } from './line';
 
 export function routesFactorey(app) {
@@ -8,6 +9,7 @@ export function routesFactorey(app) {
 
   router.all('/', index);
   router.use(storeRoutesFactory(app));
+  router.use(userRoutesFactory(app));
   router.use(lineRoutesFactory(app));
 
   function index(req: Request, res: Response, next: NextFunction) {

@@ -14,7 +14,7 @@ export abstract class BaseModelFactory<U extends Model<T>, T extends Document> i
   abstract getModelName(): string;
 
   getSchema() {
-    return new Schema<U>(this.getSchemaDefinition(), this.getSchemaOptions());
+    return new Schema<T>(this.getSchemaDefinition(), this.getSchemaOptions());
   }
 
   getSchemaDefinition(): SchemaDefinition {

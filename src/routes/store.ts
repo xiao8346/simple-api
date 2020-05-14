@@ -5,7 +5,7 @@ import { IModel } from '../models';
 
 export function storeRoutesFactory(app: Express) {
   const router = Router();
-  const { Store } = app.get('model') as IModel;
+  const { Store } = app.get('models') as IModel;
 
   router.get('/stores', readStores);
   router.post('/stores', createStores);

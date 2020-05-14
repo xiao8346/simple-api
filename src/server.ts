@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.set('config', config);
 
-app.set('model', modelsFactory(conn));
+app.set('models', modelsFactory(conn));
 
 app.use(routesFactorey(app));
 
