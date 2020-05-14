@@ -3,16 +3,18 @@ import * as jwt from 'jsonwebtoken';
 
 import { HttpError } from '../utils';
 import { IStorage } from '../utils/storage';
-import { IModel } from '../models';
+import { Models } from '../models';
+import { genPassword } from '../models/user';
 // import { middlewaresFactory } from '../middlewares';
 
 export function userRoutesFactory(app: IStorage): Router {
   const router = Router();
-  const { User } = app.get('models') as IModel;
+  const { User } = app.get('models') as Models;
 
   // const { } = middlewaresFactory(app);
 
   router.post('/user/login', login);
+  // router.patch('/user/password', changePassword);
 
   function login(req: Request, res: Response, next: NextFunction) {
     const { name, password } = req.body;
@@ -24,7 +26,7 @@ export function userRoutesFactory(app: IStorage): Router {
           throw new HttpError(404);
         }
 
-        if (!user.comparePassword(password, user.password)) {
+        if (!user.comparePassword(password)) {
           throw new HttpError(404);
         }
 
@@ -39,6 +41,26 @@ export function userRoutesFactory(app: IStorage): Router {
       })
       .fail(next);
   }
+
+  // function changePassword(req: Request, res: Response, next: NextFunction) {
+  //   const { id, oldPassword, newPassword } = req.body;
+
+  //   User.findById(id)
+  //     .exec()
+  //     .then(user => {
+  //       if (!user) {
+  //         throw new HttpError(404);
+  //       }
+
+  //       if (!user.comparePassword(oldPassword)) {
+  //         throw new HttpError(400);
+  //       }
+
+  //       user.password = genPassword(newPassword);
+
+  //       return user.save().then(savedUser => {});
+  //     });
+  // }
 
   return router;
 }

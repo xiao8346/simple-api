@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction, Express } from 'express';
 
 import { HttpError } from '../utils';
-import { IModel } from '../models';
+import { Models } from '../models';
 
 export function storeRoutesFactory(app: Express) {
   const router = Router();
-  const { Store } = app.get('models') as IModel;
+  const { Store } = app.get('models') as Models;
 
   router.get('/stores', readStores);
   router.post('/stores', createStores);

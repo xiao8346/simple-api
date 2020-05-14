@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import * as bcrypt from 'bcryptjs';
 
 import { BaseModelFactory } from './base';
+// import { HttpError } from '../utils';
 // import { ModelPlugins } from './plugins';
 // import { ModelValidates } from './validates';
 
@@ -13,7 +14,7 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
 
-  comparePassword: (password: string, cb: any) => boolean;
+  comparePassword: (password: string) => boolean;
 }
 
 export interface UserModel extends Model<IUser> {}
@@ -40,6 +41,7 @@ export class UserModelFactory extends BaseModelFactory<UserModel, IUser> {
 
       self.password = passwordHash;
 
+      // next(new HttpError(400));
       next();
     });
 
@@ -75,4 +77,13 @@ export class UserModelFactory extends BaseModelFactory<UserModel, IUser> {
       _id: true
     };
   }
+}
+
+export function genPassword(password: string) {
+  const self = this as IUser;
+
+  const salt = bcrypt.genSaltSync(10);
+  const passwordHash = bcrypt.hashSync(self.password, salt);
+
+  return passwordHash;
 }

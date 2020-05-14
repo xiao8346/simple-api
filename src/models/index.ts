@@ -3,12 +3,12 @@ import { Connection } from 'mongoose';
 import { StoreModelFactory, StoreModel } from './store';
 import { UserModelFactory, UserModel } from './user';
 
-export interface IModel {
+export interface Models {
   Store: StoreModel;
   User: UserModel;
 }
 
-let models: IModel;
+let models: Models;
 
 export function modelsFactory(conn: Connection) {
   if (models) {
