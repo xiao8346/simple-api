@@ -17,18 +17,17 @@ const conn = mongoose.createConnection('mongodb://localhost:27017/test', { useNe
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(morgan('tiny'));
+app.use(morgan('combined'));
+
 app.set('config', config);
 
 app.set('models', modelsFactory(conn));
 
-app.use(routesFactorey(app));
+app.use(routesFactorey(app, conn));
 
-app.use(function (err, req, res, next) {
+app.use(function (err, req: express.Request, res: express.Response, next: express.NextFunction) {
   err.status = err.status || 500;
   err.message = STATUS_CODES[err.status];
   res.status(err.status);
   res.json(err);
 });
-
-const port = process.env.PORT || 3300;

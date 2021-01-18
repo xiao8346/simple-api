@@ -1,10 +1,21 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import * as mongoose from 'mongoose';
 
 import { storeRoutesFactory } from './store';
 import { userRoutesFactory } from './user';
 import { lineRoutesFactory } from './line';
+import { IStorage } from '../utils/storage';
 
-export function routesFactorey(app) {
+const { name, version } = require('../../package.json');
+
+enum DBReadyState {
+  disconnected = 0,
+  connected,
+  connecting,
+  disconnecting
+}
+
+export function routesFactorey(app: IStorage, conn: mongoose.Connection) {
   const router = Router();
 
   router.all('/', index);
@@ -13,7 +24,7 @@ export function routesFactorey(app) {
   router.use(lineRoutesFactory(app));
 
   function index(req: Request, res: Response, next: NextFunction) {
-    res.json({ data: new Date().toISOString() });
+    res.json({ name, version, data: new Date().toISOString(), dbStatus: DBReadyState[conn.readyState] });
   }
 
   return router;
