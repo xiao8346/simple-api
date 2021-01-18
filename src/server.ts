@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 import * as Q from 'q';
+import * as morgan from 'morgan';
 
 import { modelsFactory } from './models';
 import { routesFactorey } from './routes';
@@ -16,6 +17,7 @@ const conn = mongoose.createConnection('mongodb://localhost:27017/test', { useNe
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(morgan('tiny'));
 app.set('config', config);
 
 app.set('models', modelsFactory(conn));

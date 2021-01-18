@@ -13,10 +13,10 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
 
-  comparePassword: (password: string, cb: any) => boolean;
+  comparePassword: (password: string, cb?: any) => boolean;
 }
 
-export interface UserModel extends Model<IUser> {}
+export interface UserModel extends Model<IUser> { }
 
 export class UserModelFactory extends BaseModelFactory<UserModel, IUser> {
   getModelName(): string {

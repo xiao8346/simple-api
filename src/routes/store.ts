@@ -2,16 +2,18 @@ import { Router, Request, Response, NextFunction, Express } from 'express';
 
 import { HttpError } from '../utils';
 import { IModel } from '../models';
+import { middlewaresFactory } from '../middlewares';
 
 export function storeRoutesFactory(app: Express) {
   const router = Router();
   const { Store } = app.get('models') as IModel;
+  const { authVerify } = middlewaresFactory(app);
 
-  router.get('/stores', readStores);
-  router.post('/stores', createStores);
-  router.get('/stores/:sid', readStore);
-  router.patch('/stores/:sid', updateStore);
-  router.delete('stores/:sid', removeStore);
+  router.get('/stores', authVerify, readStores);
+  router.post('/stores', authVerify, createStores);
+  router.get('/stores/:sid', authVerify, readStore);
+  router.patch('/stores/:sid', authVerify, updateStore);
+  router.delete('stores/:sid', authVerify, removeStore);
 
   function readStores(req: Request, res: Response, next: NextFunction) {
     const { limit: limitStr, skip: skipStr } = req.query;

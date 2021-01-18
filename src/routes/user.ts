@@ -10,9 +10,9 @@ export function userRoutesFactory(app: IStorage): Router {
   const router = Router();
   const { User } = app.get('models') as IModel;
 
-  // const { } = middlewaresFactory(app);
+  // const { authVerify } = middlewaresFactory(app);
 
-  router.post('/user/login', login);
+  router.post('/users/login', login);
 
   function login(req: Request, res: Response, next: NextFunction) {
     const { name, password } = req.body;
@@ -24,7 +24,7 @@ export function userRoutesFactory(app: IStorage): Router {
           throw new HttpError(404);
         }
 
-        if (!user.comparePassword(password, user.password)) {
+        if (!user.comparePassword(password)) {
           throw new HttpError(404);
         }
 

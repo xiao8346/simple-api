@@ -10,8 +10,7 @@ export interface IStore extends Document {
   principal: string;
 }
 
-export interface StoreModel extends Model<IStore> {}
-
+export interface StoreModel extends Model<IStore> { }
 export class StoreModelFactory extends BaseModelFactory<StoreModel, IStore> {
   constructor() {
     super();
