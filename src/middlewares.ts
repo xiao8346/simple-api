@@ -19,11 +19,11 @@ export function middlewaresFactory(app: IStorage) {
 
       return User.findById(payload.id).exec()
         .then(user => {
-          if (!user) { throw new HttpError(401) }
+          if (!user) { throw new HttpError(401); }
 
           next();
         })
-        .fail(next)
+        .fail(next);
     }
 
     throw new HttpError(401);

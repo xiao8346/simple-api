@@ -35,11 +35,11 @@ export function userRoutesFactory(app: IStorage): Router {
 
         const options = {
           expiresIn: 2 * 60 * 60
-        }
+        };
 
         const token = jwt.sign(payload, 'secret', options);
 
-        req.user = user.id
+        req.user = user.id;
 
         return res.json({ data: token });
       })

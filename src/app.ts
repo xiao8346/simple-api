@@ -1,4 +1,5 @@
 import { STATUS_CODES } from 'http';
+// import * as util from 'util';
 
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
@@ -12,8 +13,25 @@ import { routesFactorey } from './routes';
 import { config } from './config';
 
 export const app = express();
+
 (mongoose as any).Promise = Q.Promise;
-const conn = mongoose.createConnection('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.set('debug', (collectionName: string, method: string, query: any, options: any) => {
+//   const projection = { ...options.projection };
+//   const cloneOptions = { ...options };
+//   delete cloneOptions.projection;
+
+//   console.log(`
+//     db.${collectionName}.${method}(
+//       ${util.inspect(query)}, 
+//       ${util.inspect(projection)}, 
+//       ${util.inspect(cloneOptions)}
+//     );
+//   `);
+// });
+const conn = mongoose.createConnection('mongodb://localhost:27017/test', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(cors());
 app.use(bodyParser.json());

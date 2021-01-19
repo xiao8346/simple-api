@@ -7,7 +7,7 @@ nconf
     file: 'config.json',
     dir: '../',
     search: true
-  })
+  });
 
 
 export const config = nconf;
