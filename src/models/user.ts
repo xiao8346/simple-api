@@ -7,8 +7,10 @@ import { BaseModelFactory } from './base';
 // import { ModelValidates } from './validates';
 
 export interface IUser extends Document {
-  name: string;
+  account: string;
   password: string;
+  email: string;
+  phone: string;
 
   createdAt: Date;
   updatedAt: Date;
@@ -52,14 +54,26 @@ export class UserModelFactory extends BaseModelFactory<UserModel, IUser> {
 
   getSchemaDefinition() {
     return _.merge(super.getSchemaDefinition(), {
-      name: {
+      account: {
         type: String,
-        required: '{PATH} is required'
+        required: '{PATH} is required',
+        unique: true
       },
+
       password: {
         type: String,
         required: '{PATH} is required'
       },
+
+      name: {
+        type: String,
+        require: '{PATH} is required'
+      },
+
+      email: {
+        type: String,
+      },
+
       phone: {
         type: String
       }

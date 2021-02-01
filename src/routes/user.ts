@@ -15,9 +15,9 @@ export function userRoutesFactory(app: IStorage): Router {
   router.post('/users/login', login);
 
   function login(req: Request, res: Response, next: NextFunction) {
-    const { name, password } = req.body;
+    const { account, password } = req.body;
 
-    User.findOne({ name })
+    User.findOne({ account })
       .exec()
       .then(user => {
         if (!user) {
@@ -30,7 +30,7 @@ export function userRoutesFactory(app: IStorage): Router {
 
         const payload = {
           id: user.id,
-          name: user.name
+          account: user.account
         };
 
         const options = {
